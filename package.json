@@ -1,0 +1,41 @@
+{
+  "name": "@neezer/action",
+  "private": false,
+  "version": "0.0.0--semantically-released",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neezer/action"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Evan Sherwood <evan@sherwood.io>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/nanoid": "^1.2.0",
+    "@types/ramda": "^0.25.43",
+    "@types/sinon": "^5.0.7",
+    "@types/tape": "^4.2.32",
+    "prettier": "^1.15.3",
+    "ramda": "^0.26.1",
+    "rimraf": "^2.6.2",
+    "semantic-release": "^15.13.1",
+    "sinon": "^7.1.1",
+    "tape": "^4.9.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.2"
+  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rimraf dist",
+    "test": "tape --require ts-node/register 'test/**/*.test.ts'"
+  },
+  "dependencies": {
+    "nanoid": "^2.0.0"
+  }
+}
