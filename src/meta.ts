@@ -7,35 +7,10 @@ export interface IMetaOpts {
 
 export class Meta {
   public static assertMetaIsh = (meta: any): meta is Meta => {
-    // {} ✔
-    // { connectionId: 'whatever' } ✔
-    // { correlationId: 'whatever' } ✔
-    // { connectionId: 'whatever', correlationId: 'whatever' } ✔
-    // any other object in existence ✘
+    const isObj = (v: any) =>
+      Object.prototype.toString.call(v) === "[object Object]";
 
-    const isEmptyObject = (v: any) => JSON.stringify(v) === "{}";
-
-    const hasOnlyCorrelationId = (v: any) =>
-      Object.keys(v).length === 1 && v.hasOwnProperty("correlationId");
-
-    const hasOnlyConnectionId = (v: any) =>
-      Object.keys(v).length === 1 && v.hasOwnProperty("connectionId");
-
-    const hasBothCorrelationAndConnectionIds = (v: any) =>
-      Object.keys(v).length === 2 &&
-      v.hasOwnProperty("connectionId") &&
-      v.hasOwnProperty("correlationId");
-
-    if (!meta) {
-      return false;
-    }
-
-    return (
-      isEmptyObject(meta) ||
-      hasOnlyCorrelationId(meta) ||
-      hasOnlyConnectionId(meta) ||
-      hasBothCorrelationAndConnectionIds(meta)
-    );
+    return isObj(meta);
   };
 
   public static advance(meta: Meta, message: string) {

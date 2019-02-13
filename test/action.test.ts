@@ -15,10 +15,6 @@ test("new assigns properties, defaults meta", (t: Test) => {
   t.deepEqual(action.payload, payload, "payload is correct");
   t.notEqual(action.meta, undefined, "meta is set");
 
-  t.throws(() => {
-    action = new Action(appId, type, payload, { aKey: "bob" });
-  }, "throws with bad input meta");
-
   action = new Action(appId, type, payload, { connectionId: "bob" });
 
   t.ok(action.meta instanceof Meta, "meta is Meta");
