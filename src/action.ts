@@ -61,7 +61,12 @@ export class Action {
   public readonly meta: Meta;
   public slim: boolean = false;
 
-  constructor(appId: string, type: string, payload?: any, meta?: Meta) {
+  constructor(
+    appId: string,
+    type: string,
+    payload?: any,
+    meta?: Meta | Record<string, any>
+  ) {
     if (typeof appId !== "string" || appId.length === 0) {
       throw new Error("a valid app id must be provided");
     }
@@ -69,7 +74,14 @@ export class Action {
     this.appId = appId;
     this.type = type;
     this.payload = payload;
-    this.meta = meta || new Meta(appId, []);
+
+    if (meta instanceof Meta) {
+      this.meta = meta;
+    } else if (meta === undefined || Meta.assertMetaIsh(meta)) {
+      this.meta = new Meta(appId, [], meta);
+    } else {
+      throw new Error("given meta is invalid");
+    }
   }
 
   public toString() {

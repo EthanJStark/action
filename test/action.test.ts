@@ -7,17 +7,23 @@ test("new assigns properties, defaults meta", (t: Test) => {
   const appId = "app";
   const type = "type";
   const payload = { a: "payload" };
-  const action = new Action(appId, type, payload);
+
+  let action = new Action(appId, type, payload);
 
   t.equal(action.appId, appId, "app id is correct");
   t.equal(action.type, type, "type is correct");
   t.deepEqual(action.payload, payload, "payload is correct");
   t.notEqual(action.meta, undefined, "meta is set");
 
-  if (action.meta !== undefined) {
-    t.ok(action.meta instanceof Meta, "meta is Meta");
-    t.deepEqual(action.meta.history, [], "history is empty");
-  }
+  t.throws(() => {
+    action = new Action(appId, type, payload, { aKey: "bob" });
+  }, "throws with bad input meta");
+
+  action = new Action(appId, type, payload, { connectionId: "bob" });
+
+  t.ok(action.meta instanceof Meta, "meta is Meta");
+  t.deepEqual(action.meta.history, [], "history is empty");
+  t.equal(action.meta.connectionId, "bob", "meta.connection id is correct");
 
   t.end();
 });
