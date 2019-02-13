@@ -11,6 +11,7 @@
   "author": "Evan Sherwood <evan@sherwood.io>",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/config-conventional": "^7.5.0",
     "@types/nanoid": "^1.2.0",
     "@types/ramda": "^0.25.43",
     "@types/sinon": "^5.0.7",
