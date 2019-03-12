@@ -3,6 +3,7 @@ import nanoid from "nanoid";
 export interface IMetaOpts {
   connectionId: string;
   correlationId: string;
+  jwt?: string;
 }
 
 export class Meta {
@@ -27,7 +28,8 @@ export class Meta {
   public static augment(meta: Meta, props: Partial<IMetaOpts>) {
     const opts = {
       connectionId: props.connectionId || meta.connectionId,
-      correlationId: props.correlationId || meta.correlationId
+      correlationId: props.correlationId || meta.correlationId,
+      jwt: props.jwt || meta.jwt
     };
 
     return new Meta(meta.appId, meta.history, opts);
@@ -60,6 +62,7 @@ export class Meta {
   public readonly history: string[] = [];
   public readonly connectionId?: string;
   public readonly correlationId?: string;
+  public readonly jwt?: string;
 
   constructor(appId: string, history: string[], opts?: Partial<IMetaOpts>) {
     this.appId = appId;
