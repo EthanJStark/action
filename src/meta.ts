@@ -19,7 +19,8 @@ export class Meta {
 
     const opts = {
       connectionId: meta.connectionId,
-      correlationId: meta.correlationId
+      correlationId: meta.correlationId,
+      jwt: meta.jwt
     };
 
     return new Meta(meta.appId, [...meta.history, msg], opts);
@@ -40,7 +41,8 @@ export class Meta {
 
     const opts = {
       connectionId: firstMeta.connectionId,
-      correlationId: firstMeta.correlationId
+      correlationId: firstMeta.correlationId,
+      jwt: firstMeta.jwt
     };
 
     const history = metas.reduce((memo: string[], meta) => {
@@ -69,13 +71,15 @@ export class Meta {
     this.history = history;
     this.correlationId = (opts && opts.correlationId) || nanoid();
     this.connectionId = opts && opts.connectionId;
+    this.jwt = opts && opts.jwt;
   }
 
   public toJSON(slim = false) {
     return {
       connectionId: slim ? undefined : this.connectionId,
       correlationId: this.correlationId,
-      history: slim ? undefined : this.history
+      history: slim ? undefined : this.history,
+      jwt: this.jwt
     };
   }
 }
