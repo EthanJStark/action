@@ -4,6 +4,7 @@ export interface IMetaOpts {
   connectionId: string;
   correlationId: string;
   jwt?: string;
+  origin?: string;
 }
 
 export class Meta {
@@ -20,7 +21,8 @@ export class Meta {
     const opts = {
       connectionId: meta.connectionId,
       correlationId: meta.correlationId,
-      jwt: meta.jwt
+      jwt: meta.jwt,
+      origin: meta.origin
     };
 
     return new Meta(meta.appId, [...meta.history, msg], opts);
@@ -30,7 +32,8 @@ export class Meta {
     const opts = {
       connectionId: props.connectionId || meta.connectionId,
       correlationId: props.correlationId || meta.correlationId,
-      jwt: props.jwt || meta.jwt
+      jwt: props.jwt || meta.jwt,
+      origin: props.origin || meta.origin
     };
 
     return new Meta(meta.appId, meta.history, opts);
@@ -42,7 +45,8 @@ export class Meta {
     const opts = {
       connectionId: firstMeta.connectionId,
       correlationId: firstMeta.correlationId,
-      jwt: firstMeta.jwt
+      jwt: firstMeta.jwt,
+      origin: firstMeta.origin
     };
 
     const history = metas.reduce((memo: string[], meta) => {
@@ -65,6 +69,7 @@ export class Meta {
   public readonly connectionId?: string;
   public readonly correlationId?: string;
   public readonly jwt?: string;
+  public readonly origin?: string;
 
   constructor(appId: string, history: string[], opts?: Partial<IMetaOpts>) {
     this.appId = appId;
@@ -72,6 +77,7 @@ export class Meta {
     this.correlationId = (opts && opts.correlationId) || nanoid();
     this.connectionId = opts && opts.connectionId;
     this.jwt = opts && opts.jwt;
+    this.origin = opts && opts.origin;
   }
 
   public toJSON(slim = false) {
@@ -79,7 +85,8 @@ export class Meta {
       connectionId: slim ? undefined : this.connectionId,
       correlationId: this.correlationId,
       history: slim ? undefined : this.history,
-      jwt: this.jwt
+      jwt: this.jwt,
+      origin: this.origin
     };
   }
 }
