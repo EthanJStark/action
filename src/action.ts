@@ -11,7 +11,8 @@ export class Action {
     action: Action | undefined,
     type: string,
     payload?: any,
-    appId?: string
+    appId?: string,
+    metadata?: any
   ) {
     if (action === undefined) {
       if (appId === undefined) {
@@ -25,13 +26,13 @@ export class Action {
 
     const nextMeta = Meta.advance(action.meta, `created from ${action.type}`);
 
-    return new Action(action.appId, type, payload, nextMeta);
+    return new Action(action.appId, type, payload, nextMeta, metadata);
   }
 
   public static augment(action: Action, properties: AugmentProps) {
     const nextMeta = Meta.augment(action.meta, properties);
 
-    return new Action(action.appId, action.type, action.payload, nextMeta);
+    return new Action(action.appId, action.type, action.payload, nextMeta, action.metadata);
   }
 
   public static merge(actionMap: ActionTypeMap) {
@@ -59,13 +60,15 @@ export class Action {
   public readonly appId: string;
   public readonly payload?: any;
   public readonly meta: Meta;
+  public readonly metadata: any;
   public slim: boolean = false;
 
   constructor(
     appId: string,
     type: string,
     payload?: any,
-    meta?: Meta | Record<string, any>
+    meta?: Meta | Record<string, any>,
+    metadata?: any,
   ) {
     if (typeof appId !== "string" || appId.length === 0) {
       throw new Error("a valid app id must be provided");
@@ -74,6 +77,7 @@ export class Action {
     this.appId = appId;
     this.type = type;
     this.payload = payload;
+    this.metadata = metadata
 
     if (meta instanceof Meta) {
       this.meta = meta;
@@ -91,8 +95,9 @@ export class Action {
   public toJSON() {
     return {
       meta: this.meta.toJSON(this.slim),
+      metadata: this.metadata,
       payload: prune(this.payload),
-      type: this.type
+      type: this.type,
     };
   }
 }

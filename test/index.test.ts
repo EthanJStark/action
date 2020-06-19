@@ -3,14 +3,16 @@ import test, { Test } from "tape";
 import { augment, AugmentProps, make, next } from "../src";
 
 test("make creates a new action", (t: Test) => {
-  t.plan(3);
+  t.plan(4);
 
   const payload = { key: "value" };
-  const action = make("app")("test", payload);
+  const metadata = { total: 42 }
+  const action = make("app")("test", payload, undefined, metadata);
 
   t.equal(action.type, "test", "type is correct");
   t.equal(action.appId, "app", "app id is correct");
   t.deepEqual(action.payload, payload, "payload is correct");
+  t.deepEqual(action.metadata, metadata, "metadata is correct");
 });
 
 test("next creates a new action advancing meta", (t: Test) => {

@@ -7,8 +7,8 @@ export type AugmentProps = Partial<IMetaOpts>;
 export type ActionTypeMap = Record<string, Action>;
 
 export function make(appId: string) {
-  return (type: string, payload?: any, meta?: any) =>
-    new Action(appId, type, payload, meta);
+  return (type: string, payload?: any, meta?: any, metadata?: any) =>
+    new Action(appId, type, payload, meta, metadata);
 }
 
 export function next(
